@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ReelDrop — Instagram Reel Downloader</title>
+
+<meta name="description"
+content="ReelDrop — Fast and simple Instagram Reel downloader.">
+
+<!-- FAVICON -->
+<link rel="icon" type="image/jpeg" href="IMG-20260921-WA0037.jpg">
+<link rel="apple-touch-icon" href="IMG-20260921-WA0037.jpg">
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #060609;
+    --card: rgba(18,18,24,.82);
+    --border: rgba(255,255,255,.09);
+    --text: #ffffff;
+    --muted: #9999a6;
+    --pink: #ff2d75;
+    --purple: #8b5cf6;
+    --green: #22c55e;
+    --red: #ef4444;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--text);
+    font-family: Inter, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(255,45,117,.16),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(139,92,246,.16),
+            transparent 30%
+        ),
+        var(--bg);
+
+    overflow-x: hidden;
+}
+
+.container {
+    width: min(1080px, 92%);
+    margin: auto;
+}
+
+/* NAVBAR */
+
+nav {
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 11px;
+
+    object-fit: cover;
+
+    border: 1px solid rgba(255,255,255,.12);
+}
+
+.logo span {
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            var(--purple)
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.badge {
+    padding: 8px 13px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.03);
+
+    color: #c9c9d2;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* HERO */
+
+.hero {
+    text-align: center;
+    padding: 75px 0 35px;
+}
+
+.hero h1 {
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: clamp(
+        43px,
+        8vw,
+        78px
+    );
+
+    line-height: .98;
+
+    letter-spacing: -4px;
+}
+
+.gradient {
+    background:
+        linear-gradient(
+            90deg,
+            #ff2d75,
+            #ff6b9b,
+            #8b5cf6
+        );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    max-width: 620px;
+
+    margin: 24px auto 0;
+
+    color: var(--muted);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+/* DOWNLOAD BOX */
+
+.download-box {
+    max-width: 780px;
+
+    margin: 35px auto 0;
+
+    padding: 9px;
+
+    display: flex;
+
+    gap: 9px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    background: var(--card);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.4);
+}
+
+.download-box input {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 17px;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 15px;
+}
+
+.download-box input::placeholder {
+    color: #666672;
+}
+
+.download-btn {
+    min-height: 53px;
+
+    padding: 0 25px;
+
+    border: 0;
+
+    border-radius: 14px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.1);
+}
+
+.download-btn:disabled {
+    opacity: .55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+/* STATUS */
+
+.status {
+    min-height: 25px;
+
+    margin: 20px auto 0;
+
+    font-size: 14px;
+
+    color: var(--muted);
+}
+
+.status.success {
+    color: var(--green);
+}
+
+.status.error {
+    color: var(--red);
+}
+/* ================= RESULT ================= */
+
+.result {
+    display: none;
+
+    max-width: 780px;
+
+    margin: 25px auto;
+
+    padding: 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    background: var(--card);
+
+    backdrop-filter: blur(20px);
+}
+
+.result.show {
+    display: block;
+}
+
+.result-content {
+    display: flex;
+
+    gap: 18px;
+
+    align-items: center;
+}
+
+.thumbnail {
+    width: 150px;
+    height: 105px;
+
+    border-radius: 13px;
+
+    object-fit: cover;
+
+    background: #111116;
+}
+
+.result-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.result-title {
+    margin-bottom: 7px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+}
+
+.result-meta {
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.quality-row {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 14px;
+}
+
+.quality-btn {
+    padding: 9px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.04);
+
+    color: white;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.quality-btn:hover {
+    border-color: var(--pink);
+}
+
+.quality-btn.active {
+    border-color: transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple)
+        );
+}
+
+
+/* ================= FEATURES ================= */
+
+.features {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 15px;
+
+    margin: 55px auto 80px;
+}
+
+.feature {
+    padding: 25px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.feature-icon {
+    margin-bottom: 15px;
+
+    font-size: 25px;
+}
+
+.feature h3 {
+    margin-bottom: 8px;
+
+    font-size: 16px;
+}
+
+.feature p {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    margin-top: 20px;
+
+    padding: 30px 20px;
+
+    border-top:
+        1px solid var(--border);
+
+    text-align: center;
+}
+
+.developer-box {
+    max-width: 620px;
+
+    margin: auto;
+
+    padding: 23px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    border-radius: 19px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.dev-title {
+    font-family:
+        "Space Grotesk",
+        sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            var(--purple)
+        );
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+}
+
+.dev-line {
+    margin-top: 8px;
+
+    color: #aaaab5;
+
+    font-size: 13px;
+}
+
+.dev-contact {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    margin-top: 17px;
+
+    font-size: 12px;
+}
+
+.dev-contact span {
+    color: #777783;
+}
+
+.dev-contact a {
+    color: #d8d8e0;
+
+    text-decoration: none;
+}
+
+.dev-contact a:hover {
+    color: var(--pink);
+}
+
+.copyright {
+    margin-top: 20px;
+
+    color: #555560;
+
+    font-size: 11px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 650px) {
+
+    nav {
+        height: 65px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .logo-icon {
+        width: 33px;
+        height: 33px;
+    }
+
+    .badge {
+        padding: 7px 10px;
+
+        font-size: 9px;
+    }
+
+    .hero {
+        padding-top: 55px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+
+        letter-spacing: -2.5px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .download-box {
+        flex-direction: column;
+
+        padding: 8px;
+    }
+
+    .download-box input {
+        padding: 15px 12px;
+    }
+
+    .download-btn {
+        width: 100%;
+    }
+
+    .result-content {
+        align-items: flex-start;
+    }
+
+    .thumbnail {
+        width: 105px;
+        height: 145px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+
+        margin-top: 40px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+
+            <img
+                class="logo-icon"
+                src="IMG-20260921-WA0037.jpg"
+                alt="ReelDrop">
+
+            Reel<span>Drop</span>
+
+        </div>
+
+        <div class="badge">
+            ⚡ FAST DOWNLOADER
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            Download Reels<br>
+
+            <span class="gradient">
+                Without Limits.
+            </span>
+        </h1>
+
+        <p>
+            Paste an Instagram Reel link below
+            and download your video in high quality.
+        </p>
+
+
+        <!-- DOWNLOAD FORM -->
+
+        <div class="download-box">
+
+            <input
+                id="urlInput"
+                type="url"
+                placeholder="Paste Instagram Reel URL..."
+                autocomplete="off">
+
+            <button
+                id="downloadBtn"
+                class="download-btn"
+                onclick="getInfo()">
+
+                Download Reel
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </section>
+    <section id="result" class="result">
+  <div class="result-content">
+
+    <img
+      id="thumbnail"
+      class="thumbnail"
+      src=""
+      alt="Video thumbnail"
+    >
+
+    <div class="result-info">
+      <div id="title" class="result-title">
+        Instagram Reel
+      </div>
+
+      <div id="meta" class="result-meta">
+        Select quality
+      </div>
+
+      <div id="qualityRow" class="quality-row"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="features">
+
+  <div class="feature">
+    <div class="feature-icon">⚡</div>
+    <h3>Fast Download</h3>
+    <p>Get your Instagram Reel quickly with a simple download process.</p>
+  </div>
+
+  <div class="feature">
+    <div class="feature-icon">🎯</div>
+    <h3>High Quality</h3>
+    <p>Choose from the available video qualities before downloading.</p>
+  </div>
+
+  <div class="feature">
+    <div class="feature-icon">🔒</div>
+    <h3>Simple & Secure</h3>
+    <p>No Instagram login or password is required.</p>
+  </div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+  <div class="developer-box">
+
+    <div class="dev-title">
+      ⚡ DEVELOPER VINAY PRIME
+    </div>
+
+    <div class="dev-line">
+      If you want this type of web, contact me.
+    </div>
+
+    <div class="dev-contact">
+
+      <div>
+        📧 <span>Gmail:</span>
+        <a href="mailto:darkmethod501@gmail.com">
+          darkmethod501@gmail.com
+        </a>
+      </div>
+
+      <div>
+        ✈️ <span>Telegram:</span>
+        <a
+          href="https://t.me/VINAYXHERE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          @VINAYXHERE
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © 2026 ReelDrop • Developed by VINAY PRIME
+  </div>
+
+</footer>
+
+
+<script>
+const API_BASE = "https://yoinku.com/api/v1";
+const API_KEY = "yk_BesRmTlosBiokKSQUBtcttmvPbBTndJeIDANpDtoENTSTNKERSCEECuehJOXyGEP";
+
+const urlInput = document.getElementById("urlInput");
+const downloadBtn = document.getElementById("downloadBtn");
+const statusBox = document.getElementById("status");
+
+const result = document.getElementById("result");
+const thumbnail = document.getElementById("thumbnail");
+const title = document.getElementById("title");
+const meta = document.getElementById("meta");
+const qualityRow = document.getElementById("qualityRow");
+
+let currentUrl = "";
+let selectedFormat = null;
+
+
+// STATUS
+function setStatus(message, type = "") {
+  statusBox.textContent = message;
+  statusBox.className = "status";
+
+  if (type) {
+    statusBox.classList.add(type);
+  }
+}
+
+
+// GET VIDEO INFO
+async function getInfo() {
+
+  const url = urlInput.value.trim();
+
+  if (!url) {
+    setStatus("❌ Please paste an Instagram Reel URL.", "error");
+    return;
+  }
+
+  if (!url.includes("instagram.com")) {
+    setStatus("❌ Please enter a valid Instagram URL.", "error");
+    return;
+  }
+
+  if (
+    API_KEY === "" ||
+    API_KEY === "YOUR_YOINKU_API_KEY"
+  ) {
+    setStatus("⚠️ Add your Yoinku API key first.", "error");
+    return;
+  }
+
+  currentUrl = url;
+  selectedFormat = null;
+
+  downloadBtn.disabled = true;
+  downloadBtn.textContent = "Loading...";
+
+  result.classList.remove("show");
+  qualityRow.innerHTML = "";
+
+  setStatus("⏳ Fetching video information...");
+
+  try {
+
+    const apiUrl =
+      API_BASE +
+      "/info?url=" +
+      encodeURIComponent(url);
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "x-api-key": API_KEY
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || data.ok !== true) {
+
+      const errorMessage =
+        data?.error?.message ||
+        data?.message ||
+        "Unable to fetch this video.";
+
+      throw new Error(errorMessage);
+    }
+
+    const video = data.data || {};
+
+    title.textContent =
+      video.title || "Instagram Reel";
+
+    if (video.thumbnailUrl) {
+      thumbnail.src = video.thumbnailUrl;
+    } else {
+      thumbnail.removeAttribute("src");
+    }
+
+    const duration =
+      formatDuration(video.durationSeconds);
+
+    meta.textContent =
+      duration
+        ? `Duration: ${duration}`
+        : "Available qualities";
+
+    renderFormats(video.formats || []);
+
+    result.classList.add("show");
+
+    setStatus(
+      "✅ Video found! Select a quality.",
+      "success"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    setStatus(
+      "❌ " +
+      (error.message || "Something went wrong."),
+      "error"
+    );
+
+  } finally {
+
+    downloadBtn.disabled = false;
+    downloadBtn.textContent = "Download Reel";
+
+  }
+}
+
+
+// SHOW QUALITY BUTTONS
+function renderFormats(formats) {
+
+  qualityRow.innerHTML = "";
+
+  const videoFormats = formats.filter(
+    format =>
+      format.kind === "video" &&
+      format.hasVideo === true
+  );
+
+  if (!videoFormats.length) {
+
+    setStatus(
+      "❌ No downloadable video format found.",
+      "error"
+    );
+
+    return;
+  }
+
+  videoFormats.sort(
+    (a, b) =>
+      (b.height || 0) -
+      (a.height || 0)
+  );
+
+  videoFormats.forEach((format, index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "quality-btn";
+
+    button.textContent =
+      format.quality ||
+      (
+        format.height
+          ? `${format.height}p`
+          : "Video"
+      );
+
+    button.onclick = () => {
+
+      document
+        .querySelectorAll(".quality-btn")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+      button.classList.add("active");
+
+      selectedFormat = format.id;
+
+      downloadVideo();
+    };
+
+    qualityRow.appendChild(button);
+
+    if (index === 0) {
+
+      button.classList.add("active");
+
+      selectedFormat = format.id;
+    }
+
+  });
+}
+
+
+// DOWNLOAD VIDEO
+async function downloadVideo() {
+
+  if (!currentUrl || !selectedFormat) {
+
+    setStatus(
+      "❌ Please select a video quality.",
+      "error"
+    );
+
+    return;
+  }
+
+  setStatus(
+    "⏳ Preparing your download..."
+  );
+
+  try {
+
+    const params =
+      new URLSearchParams();
+
+    params.set("url", currentUrl);
+    params.set("format", selectedFormat);
+
+    const apiUrl =
+      API_BASE +
+      "/download?" +
+      params.toString();
+
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "x-api-key": API_KEY
+      }
+    });
+
+    const data =
+      await response.json();
+
+    if (!response.ok || data.ok !== true) {
+
+      const errorMessage =
+        data?.error?.message ||
+        data?.message ||
+        "Download failed.";
+
+      throw new Error(errorMessage);
+    }
+
+    if (!data.url) {
+      throw new Error(
+        "Download URL was not returned."
+      );
+    }
+
+    setStatus(
+      "✅ Download ready!",
+      "success"
+    );
+
+    const link =
+      document.createElement("a");
+
+    link.href = data.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    if (data.filename) {
+      link.download = data.filename;
+    }
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+  } catch (error) {
+
+    console.error(error);
+
+    setStatus(
+      "❌ " +
+      (error.message || "Download failed."),
+      "error"
+    );
+  }
+}
+
+
+// FORMAT DURATION
+function formatDuration(seconds) {
+
+  if (!seconds) return "";
+
+  seconds = Number(seconds);
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const remainingSeconds =
+    Math.floor(seconds % 60);
+
+  return (
+    minutes +
+    ":" +
+    String(remainingSeconds)
+      .padStart(2, "0")
+  );
+}
+
+
+// ENTER KEY
+urlInput.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Enter") {
+      getInfo();
+    }
+
+  }
+);
+
+</script>
+
+</body>
+  </html>

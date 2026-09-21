@@ -6,587 +6,427 @@
 
 <title>ReelDrop — Instagram Reel Downloader</title>
 
-<meta name="description"
-content="ReelDrop — Fast and simple Instagram Reel downloader.">
-
-<!-- FAVICON -->
 <link rel="icon" type="image/jpeg" href="IMG-20260921-WA0037.jpg">
 <link rel="apple-touch-icon" href="IMG-20260921-WA0037.jpg">
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-:root {
-    --bg: #060609;
-    --card: rgba(18,18,24,.82);
-    --border: rgba(255,255,255,.09);
-    --text: #ffffff;
-    --muted: #9999a6;
-    --pink: #ff2d75;
-    --purple: #8b5cf6;
-    --green: #22c55e;
-    --red: #ef4444;
+:root{
+  --bg:#07070a;
+  --card:#111116;
+  --card2:#18181f;
+  --text:#fff;
+  --muted:#9999a5;
+  --border:rgba(255,255,255,.09);
+  --pink:#ff2d55;
+  --purple:#833ab4;
 }
 
-body {
-    min-height: 100vh;
-    color: var(--text);
-    font-family: Inter, sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 15% 10%,
-            rgba(255,45,117,.16),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 20%,
-            rgba(139,92,246,.16),
-            transparent 30%
-        ),
-        var(--bg);
-
-    overflow-x: hidden;
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(131,58,180,.20),transparent 35%),
+    radial-gradient(circle at 90% 0%,rgba(255,45,85,.13),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-.container {
-    width: min(1080px, 92%);
-    margin: auto;
+.container{
+  width:min(1050px,92%);
+  margin:auto;
 }
 
-/* NAVBAR */
+/* NAV */
 
-nav {
-    height: 76px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+nav{
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    font-family: "Space Grotesk", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -1px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-size:21px;
+  font-weight:800;
 }
 
-.logo-icon {
-    width: 38px;
-    height: 38px;
-
-    border-radius: 11px;
-
-    object-fit: cover;
-
-    border: 1px solid rgba(255,255,255,.12);
+.logo-icon{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  box-shadow:0 8px 30px rgba(253,29,29,.25);
 }
 
-.logo span {
-    background:
-        linear-gradient(
-            90deg,
-            var(--pink),
-            var(--purple)
-        );
-
-    -webkit-background-clip: text;
-    color: transparent;
+.logo span{
+  color:#c8a7ff;
 }
 
-.badge {
-    padding: 8px 13px;
-
-    border: 1px solid var(--border);
-    border-radius: 999px;
-
-    background: rgba(255,255,255,.03);
-
-    color: #c9c9d2;
-
-    font-size: 11px;
-    font-weight: 600;
+.badge{
+  padding:7px 13px;
+  border:1px solid var(--border);
+  border-radius:30px;
+  color:var(--muted);
+  font-size:12px;
 }
 
 /* HERO */
 
-.hero {
-    text-align: center;
-    padding: 75px 0 35px;
+.hero{
+  text-align:center;
+  padding:90px 0 55px;
 }
 
-.hero h1 {
-    font-family: "Space Grotesk", sans-serif;
-
-    font-size: clamp(
-        43px,
-        8vw,
-        78px
-    );
-
-    line-height: .98;
-
-    letter-spacing: -4px;
+.hero h1{
+  font-size:clamp(43px,8vw,80px);
+  line-height:1;
+  letter-spacing:-3px;
 }
 
-.gradient {
-    background:
-        linear-gradient(
-            90deg,
-            #ff2d75,
-            #ff6b9b,
-            #8b5cf6
-        );
-
-    -webkit-background-clip: text;
-    color: transparent;
+.gradient{
+  background:linear-gradient(90deg,#833ab4,#fd1d1d,#fcb045);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
-.hero p {
-    max-width: 620px;
-
-    margin: 24px auto 0;
-
-    color: var(--muted);
-
-    font-size: 16px;
-
-    line-height: 1.7;
+.hero p{
+  max-width:650px;
+  margin:24px auto 34px;
+  color:var(--muted);
+  line-height:1.7;
+  font-size:16px;
 }
 
-/* DOWNLOAD BOX */
+/* URL BOX */
 
-.download-box {
-    max-width: 780px;
-
-    margin: 35px auto 0;
-
-    padding: 9px;
-
-    display: flex;
-
-    gap: 9px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 20px;
-
-    background: var(--card);
-
-    backdrop-filter: blur(20px);
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.4);
+.download-box{
+  width:min(760px,100%);
+  margin:auto;
+  padding:8px;
+  display:flex;
+  gap:8px;
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--border);
+  border-radius:18px;
+  backdrop-filter:blur(15px);
 }
 
-.download-box input {
-    flex: 1;
-
-    min-width: 0;
-
-    padding: 17px;
-
-    border: 0;
-
-    outline: 0;
-
-    background: transparent;
-
-    color: white;
-
-    font-size: 15px;
+.download-box input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  padding:17px;
+  font-size:15px;
 }
 
-.download-box input::placeholder {
-    color: #666672;
+.download-box input::placeholder{
+  color:#73737c;
 }
 
-.download-btn {
-    min-height: 53px;
-
-    padding: 0 25px;
-
-    border: 0;
-
-    border-radius: 14px;
-
-    color: white;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--pink),
-            var(--purple)
-        );
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: .2s;
+.download-btn{
+  border:0;
+  border-radius:13px;
+  padding:0 25px;
+  min-height:54px;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d);
+  transition:.2s;
 }
 
-.download-btn:hover {
-    transform: translateY(-2px);
-
-    filter: brightness(1.1);
+.download-btn:hover{
+  transform:translateY(-2px);
 }
 
-.download-btn:disabled {
-    opacity: .55;
-
-    cursor: not-allowed;
-
-    transform: none;
+.download-btn:disabled{
+  opacity:.6;
+  cursor:wait;
+  transform:none;
 }
 
 /* STATUS */
 
-.status {
-    min-height: 25px;
-
-    margin: 20px auto 0;
-
-    font-size: 14px;
-
-    color: var(--muted);
+.status{
+  min-height:24px;
+  margin-top:18px;
+  color:var(--muted);
+  font-size:14px;
 }
 
-.status.success {
-    color: var(--green);
+.status.success{
+  color:#48e58b;
 }
 
-.status.error {
-    color: var(--red);
-}
-/* ================= RESULT ================= */
-
-.result {
-    display: none;
-
-    max-width: 780px;
-
-    margin: 25px auto;
-
-    padding: 20px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 20px;
-
-    background: var(--card);
-
-    backdrop-filter: blur(20px);
+.status.error{
+  color:#ff6b81;
 }
 
-.result.show {
-    display: block;
+/* RESULT */
+
+.result{
+  display:none;
+  max-width:850px;
+  margin:15px auto 70px;
+  padding:22px;
+  border-radius:24px;
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--border);
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
 }
 
-.result-content {
-    display: flex;
-
-    gap: 18px;
-
-    align-items: center;
+.result.show{
+  display:block;
 }
 
-.thumbnail {
-    width: 150px;
-    height: 105px;
-
-    border-radius: 13px;
-
-    object-fit: cover;
-
-    background: #111116;
+.result-content{
+  display:flex;
+  gap:25px;
+  align-items:flex-start;
 }
 
-.result-info {
-    flex: 1;
-
-    min-width: 0;
+.thumbnail{
+  width:210px;
+  height:300px;
+  object-fit:cover;
+  border-radius:17px;
+  background:#18181f;
+  display:block;
 }
 
-.result-title {
-    margin-bottom: 7px;
-
-    font-size: 17px;
-
-    font-weight: 700;
-
-    line-height: 1.4;
+.result-info{
+  flex:1;
+  padding-top:7px;
 }
 
-.result-meta {
-    color: var(--muted);
-
-    font-size: 13px;
+.result-title{
+  font-size:22px;
+  font-weight:800;
+  line-height:1.35;
+  margin-bottom:10px;
 }
 
-.quality-row {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    margin-top: 14px;
+.result-meta{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:22px;
 }
 
-.quality-btn {
-    padding: 9px 13px;
+/* QUALITY */
 
-    border: 1px solid var(--border);
-
-    border-radius: 10px;
-
-    background: rgba(255,255,255,.04);
-
-    color: white;
-
-    font-size: 12px;
-
-    cursor: pointer;
-
-    transition: .2s;
+.quality-heading{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:10px;
 }
 
-.quality-btn:hover {
-    border-color: var(--pink);
+.quality-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
 }
 
-.quality-btn.active {
-    border-color: transparent;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--pink),
-            var(--purple)
-        );
+.quality-btn{
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:#fff;
+  padding:11px 17px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  transition:.2s;
 }
 
-
-/* ================= FEATURES ================= */
-
-.features {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap: 15px;
-
-    margin: 55px auto 80px;
+.quality-btn:hover{
+  border-color:#ff2d55;
 }
 
-.feature {
-    padding: 25px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    background:
-        rgba(255,255,255,.025);
+.quality-btn.active{
+  background:linear-gradient(135deg,#833ab4,#fd1d1d);
+  border-color:transparent;
 }
 
-.feature-icon {
-    margin-bottom: 15px;
+/* DOWNLOAD VIDEO BUTTON */
 
-    font-size: 25px;
+.final-download{
+  width:100%;
+  margin-top:25px;
+  border:0;
+  min-height:56px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ff2d55,#833ab4);
+  color:white;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+  box-shadow:0 10px 30px rgba(255,45,85,.18);
 }
 
-.feature h3 {
-    margin-bottom: 8px;
-
-    font-size: 16px;
+.final-download:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 35px rgba(255,45,85,.28);
 }
 
-.feature p {
-    color: var(--muted);
-
-    font-size: 13px;
-
-    line-height: 1.6;
+.final-download:disabled{
+  opacity:.6;
+  cursor:wait;
+  transform:none;
 }
 
+/* FEATURES */
 
-/* ================= FOOTER ================= */
-
-footer {
-    margin-top: 20px;
-
-    padding: 30px 20px;
-
-    border-top:
-        1px solid var(--border);
-
-    text-align: center;
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  padding-bottom:80px;
 }
 
-.developer-box {
-    max-width: 620px;
-
-    margin: auto;
-
-    padding: 23px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    border-radius: 19px;
-
-    background:
-        rgba(255,255,255,.025);
+.feature{
+  padding:27px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:rgba(255,255,255,.025);
 }
 
-.dev-title {
-    font-family:
-        "Space Grotesk",
-        sans-serif;
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--pink),
-            var(--purple)
-        );
-
-    -webkit-background-clip: text;
-
-    color: transparent;
+.feature-icon{
+  font-size:28px;
+  margin-bottom:16px;
 }
 
-.dev-line {
-    margin-top: 8px;
-
-    color: #aaaab5;
-
-    font-size: 13px;
+.feature h3{
+  font-size:18px;
+  margin-bottom:9px;
 }
 
-.dev-contact {
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 15px;
-
-    margin-top: 17px;
-
-    font-size: 12px;
+.feature p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px;
 }
 
-.dev-contact span {
-    color: #777783;
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--border);
+  padding:42px 20px 28px;
+  text-align:center;
 }
 
-.dev-contact a {
-    color: #d8d8e0;
-
-    text-decoration: none;
+.developer-box{
+  width:min(650px,100%);
+  margin:auto;
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:rgba(255,255,255,.025);
 }
 
-.dev-contact a:hover {
-    color: var(--pink);
+.dev-title{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:10px;
 }
 
-.copyright {
-    margin-top: 20px;
-
-    color: #555560;
-
-    font-size: 11px;
+.dev-line{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:18px;
 }
 
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 650px) {
-
-    nav {
-        height: 65px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    .logo-icon {
-        width: 33px;
-        height: 33px;
-    }
-
-    .badge {
-        padding: 7px 10px;
-
-        font-size: 9px;
-    }
-
-    .hero {
-        padding-top: 55px;
-    }
-
-    .hero h1 {
-        font-size: 45px;
-
-        letter-spacing: -2.5px;
-    }
-
-    .hero p {
-        font-size: 14px;
-    }
-
-    .download-box {
-        flex-direction: column;
-
-        padding: 8px;
-    }
-
-    .download-box input {
-        padding: 15px 12px;
-    }
-
-    .download-btn {
-        width: 100%;
-    }
-
-    .result-content {
-        align-items: flex-start;
-    }
-
-    .thumbnail {
-        width: 105px;
-        height: 145px;
-    }
-
-    .features {
-        grid-template-columns: 1fr;
-
-        margin-top: 40px;
-    }
+.dev-contact{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:18px;
+  font-size:14px;
 }
 
+.dev-contact span{
+  color:var(--muted);
+}
+
+.dev-contact a{
+  color:#fff;
+  text-decoration:none;
+}
+
+.dev-contact a:hover{
+  text-decoration:underline;
+}
+
+.copyright{
+  color:#656570;
+  font-size:12px;
+  margin-top:25px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  nav{
+    height:70px;
+  }
+
+  .badge{
+    display:none;
+  }
+
+  .hero{
+    padding:65px 0 45px;
+  }
+
+  .hero h1{
+    letter-spacing:-2px;
+  }
+
+  .download-box{
+    flex-direction:column;
+  }
+
+  .download-btn{
+    width:100%;
+  }
+
+  .result-content{
+    flex-direction:column;
+  }
+
+  .thumbnail{
+    width:100%;
+    height:390px;
+  }
+
+  .result-title{
+    font-size:19px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .dev-contact{
+    flex-direction:column;
+    gap:10px;
+  }
+}
 </style>
 </head>
 
@@ -594,118 +434,165 @@ footer {
 
 <div class="container">
 
-    <!-- NAVBAR -->
+<nav>
 
-    <nav>
+  <div class="logo">
+    <div class="logo-icon">▶</div>
+    <span>ReelDrop</span>
+  </div>
 
-        <div class="logo">
+  <div class="badge">
+    Instagram Reel Downloader
+  </div>
 
-            <img
-                class="logo-icon"
-                src="IMG-20260921-WA0037.jpg"
-                alt="ReelDrop">
-
-            Reel<span>Drop</span>
-
-        </div>
-
-        <div class="badge">
-            ⚡ FAST DOWNLOADER
-        </div>
-
-    </nav>
+</nav>
 
 
-    <!-- HERO -->
+<section class="hero">
 
-    <section class="hero">
+  <h1>
+    Download Reels<br>
+    <span class="gradient">Without Limits.</span>
+  </h1>
 
-        <h1>
-            Download Reels<br>
+  <p>
+    Paste an Instagram Reel link below and download
+    your video in high quality.
+  </p>
 
-            <span class="gradient">
-                Without Limits.
-            </span>
-        </h1>
+  <div class="download-box">
 
-        <p>
-            Paste an Instagram Reel link below
-            and download your video in high quality.
-        </p>
+    <input
+      id="urlInput"
+      type="url"
+      placeholder="Paste Instagram Reel URL..."
+      autocomplete="off"
+    >
 
+    <button
+      id="downloadBtn"
+      class="download-btn"
+      onclick="getInfo()"
+    >
+      Get Video
+    </button>
 
-        <!-- DOWNLOAD FORM -->
+  </div>
 
-        <div class="download-box">
+  <div id="status" class="status"></div>
 
-            <input
-                id="urlInput"
-                type="url"
-                placeholder="Paste Instagram Reel URL..."
-                autocomplete="off">
-
-            <button
-                id="downloadBtn"
-                class="download-btn"
-                onclick="getInfo()">
-
-                Download Reel
-
-            </button>
-
-        </div>
+</section>
 
 
-        <div
-            id="status"
-            class="status">
-        </div>
+<!-- VIDEO RESULT -->
 
-    </section>
-    <section id="result" class="result">
+<section id="result" class="result">
+
   <div class="result-content">
 
     <img
       id="thumbnail"
       class="thumbnail"
       src=""
-      alt="Video thumbnail"
+      alt="Instagram Reel preview"
     >
 
     <div class="result-info">
-      <div id="title" class="result-title">
+
+      <div
+        id="title"
+        class="result-title"
+      >
         Instagram Reel
       </div>
 
-      <div id="meta" class="result-meta">
-        Select quality
+      <div
+        id="meta"
+        class="result-meta"
+      >
+        Select video quality
       </div>
 
-      <div id="qualityRow" class="quality-row"></div>
+      <div class="quality-heading">
+        Select Quality
+      </div>
+
+      <div
+        id="qualityRow"
+        class="quality-row"
+      ></div>
+
+      <button
+        id="finalDownloadBtn"
+        class="final-download"
+        onclick="downloadVideo()"
+        disabled
+      >
+        ⬇️ Download Video
+      </button>
+
     </div>
 
   </div>
+
 </section>
 
+
+<!-- FEATURES -->
 
 <section class="features">
 
   <div class="feature">
-    <div class="feature-icon">⚡</div>
-    <h3>Fast Download</h3>
-    <p>Get your Instagram Reel quickly with a simple download process.</p>
+
+    <div class="feature-icon">
+      ⚡
+    </div>
+
+    <h3>
+      Fast Download
+    </h3>
+
+    <p>
+      Get your Instagram Reel quickly
+      with a simple download process.
+    </p>
+
   </div>
 
-  <div class="feature">
-    <div class="feature-icon">🎯</div>
-    <h3>High Quality</h3>
-    <p>Choose from the available video qualities before downloading.</p>
-  </div>
 
   <div class="feature">
-    <div class="feature-icon">🔒</div>
-    <h3>Simple & Secure</h3>
-    <p>No Instagram login or password is required.</p>
+
+    <div class="feature-icon">
+      🎯
+    </div>
+
+    <h3>
+      High Quality
+    </h3>
+
+    <p>
+      Select the available video quality
+      before downloading.
+    </p>
+
+  </div>
+
+
+  <div class="feature">
+
+    <div class="feature-icon">
+      🔒
+    </div>
+
+    <h3>
+      Simple & Secure
+    </h3>
+
+    <p>
+      No Instagram login or password
+      is required.
+    </p>
+
   </div>
 
 </section>
@@ -757,331 +644,621 @@ footer {
 
 
 <script>
-const API_BASE = "https://yoinku.com/api/v1";
-const API_KEY = "yk_NtSSJtLwaMbsvHPHnKGBojROtssJqSfFrmrzlfKhfVNNoZfoZJawZdhUVozCUIsI";
 
-const urlInput = document.getElementById("urlInput");
-const downloadBtn = document.getElementById("downloadBtn");
-const statusBox = document.getElementById("status");
+/* =========================
+   API CONFIG
+========================= */
 
-const result = document.getElementById("result");
-const thumbnail = document.getElementById("thumbnail");
-const title = document.getElementById("title");
-const meta = document.getElementById("meta");
-const qualityRow = document.getElementById("qualityRow");
+const API_BASE =
+  "https://yoinku.com/api/v1";
+
+/* Fake/Test API Key */
+const API_KEY =
+  "yk_NtSSJtLwaMbsvHPHnKGBojROtssJqSfFrmrzlfKhfVNNoZfoZJawZdhUVozCUIsI";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const urlInput =
+  document.getElementById("urlInput");
+
+const downloadBtn =
+  document.getElementById("downloadBtn");
+
+const finalDownloadBtn =
+  document.getElementById("finalDownloadBtn");
+
+const statusBox =
+  document.getElementById("status");
+
+const result =
+  document.getElementById("result");
+
+const thumbnail =
+  document.getElementById("thumbnail");
+
+const title =
+  document.getElementById("title");
+
+const meta =
+  document.getElementById("meta");
+
+const qualityRow =
+  document.getElementById("qualityRow");
+
 
 let currentUrl = "";
+
 let selectedFormat = null;
 
 
-// STATUS
-function setStatus(message, type = "") {
-  statusBox.textContent = message;
-  statusBox.className = "status";
+/* =========================
+   STATUS
+========================= */
 
-  if (type) {
-    statusBox.classList.add(type);
+function setStatus(
+  message,
+  type = ""
+){
+
+  statusBox.textContent =
+    message;
+
+  statusBox.className =
+    "status";
+
+  if(type){
+
+    statusBox.classList.add(
+      type
+    );
+
   }
+
 }
 
 
-// GET VIDEO INFO
-async function getInfo() {
+/* =========================
+   GET VIDEO INFO
+========================= */
 
-  const url = urlInput.value.trim();
+async function getInfo(){
 
-  if (!url) {
-    setStatus("❌ Please paste an Instagram Reel URL.", "error");
+  const url =
+    urlInput.value.trim();
+
+
+  if(!url){
+
+    setStatus(
+      "❌ Please paste an Instagram Reel URL.",
+      "error"
+    );
+
     return;
   }
 
-  if (!url.includes("instagram.com")) {
-    setStatus("❌ Please enter a valid Instagram URL.", "error");
+
+  if(!url.includes("instagram.com")){
+
+    setStatus(
+      "❌ Please enter a valid Instagram URL.",
+      "error"
+    );
+
     return;
   }
 
-  if (
-    API_KEY === "" ||
-    API_KEY === "API_KEY"
-  ) {
-    setStatus("⚠️ Add your Yoinku API key first.", "error");
+
+  if(
+    !API_KEY ||
+    API_KEY === "YOUR_YOINKU_API_KEY"
+  ){
+
+    setStatus(
+      "⚠️ Please add your Yoinku API key.",
+      "error"
+    );
+
     return;
   }
+
 
   currentUrl = url;
+
   selectedFormat = null;
 
   downloadBtn.disabled = true;
-  downloadBtn.textContent = "Loading...";
 
-  result.classList.remove("show");
+  downloadBtn.textContent =
+    "Loading...";
+
+  finalDownloadBtn.disabled = true;
+
+  result.classList.remove(
+    "show"
+  );
+
   qualityRow.innerHTML = "";
 
-  setStatus("⏳ Fetching video information...");
+  setStatus(
+    "⏳ Fetching video information..."
+  );
 
-  try {
+
+  try{
 
     const apiUrl =
       API_BASE +
       "/info?url=" +
       encodeURIComponent(url);
 
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        "x-api-key": API_KEY
-      }
-    });
 
-    const data = await response.json();
+    const response =
+      await fetch(
+        apiUrl,
+        {
+          method:"GET",
 
-    if (!response.ok || data.ok !== true) {
+          headers:{
+            "x-api-key":API_KEY
+          }
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !response.ok ||
+      data.ok !== true
+    ){
 
       const errorMessage =
         data?.error?.message ||
         data?.message ||
         "Unable to fetch this video.";
 
-      throw new Error(errorMessage);
+      throw new Error(
+        errorMessage
+      );
+
     }
 
-    const video = data.data || {};
+
+    const video =
+      data.data || {};
+
 
     title.textContent =
-      video.title || "Instagram Reel";
+      video.title ||
+      "Instagram Reel";
 
-    if (video.thumbnailUrl) {
-      thumbnail.src = video.thumbnailUrl;
-    } else {
-      thumbnail.removeAttribute("src");
+
+    if(video.thumbnailUrl){
+
+      thumbnail.src =
+        video.thumbnailUrl;
+
+    }else{
+
+      thumbnail.removeAttribute(
+        "src"
+      );
+
     }
 
+
     const duration =
-      formatDuration(video.durationSeconds);
+      formatDuration(
+        video.durationSeconds
+      );
+
 
     meta.textContent =
       duration
-        ? `Duration: ${duration}`
-        : "Available qualities";
+        ? "Duration: " + duration
+        : "Choose a quality below";
 
-    renderFormats(video.formats || []);
 
-    result.classList.add("show");
+    renderFormats(
+      video.formats || []
+    );
+
+
+    result.classList.add(
+      "show"
+    );
+
 
     setStatus(
       "✅ Video found! Select a quality.",
       "success"
     );
 
-  } catch (error) {
+
+  }catch(error){
 
     console.error(error);
 
     setStatus(
       "❌ " +
-      (error.message || "Something went wrong."),
+      (
+        error.message ||
+        "Something went wrong."
+      ),
       "error"
     );
 
-  } finally {
+  }finally{
 
-    downloadBtn.disabled = false;
-    downloadBtn.textContent = "Download Reel";
+    downloadBtn.disabled =
+      false;
+
+    downloadBtn.textContent =
+      "Get Video";
 
   }
+
 }
 
 
-// SHOW QUALITY BUTTONS
-function renderFormats(formats) {
+/* =========================
+   QUALITY BUTTONS
+========================= */
 
-  qualityRow.innerHTML = "";
+function renderFormats(
+  formats
+){
 
-  const videoFormats = formats.filter(
-    format =>
-      format.kind === "video" &&
-      format.hasVideo === true
-  );
+  qualityRow.innerHTML =
+    "";
 
-  if (!videoFormats.length) {
+
+  const videoFormats =
+    formats.filter(
+      format =>
+        format.kind === "video" &&
+        format.hasVideo === true
+    );
+
+
+  if(
+    !videoFormats.length
+  ){
 
     setStatus(
-      "❌ No downloadable video format found.",
+      "❌ No downloadable video quality found.",
       "error"
     );
 
     return;
   }
 
+
   videoFormats.sort(
-    (a, b) =>
+    (a,b) =>
       (b.height || 0) -
       (a.height || 0)
   );
 
-  videoFormats.forEach((format, index) => {
 
-    const button =
-      document.createElement("button");
+  videoFormats.forEach(
+    (format,index) => {
 
-    button.className = "quality-btn";
-
-    button.textContent =
-      format.quality ||
-      (
-        format.height
-          ? `${format.height}p`
-          : "Video"
-      );
-
-    button.onclick = () => {
-
-      document
-        .querySelectorAll(".quality-btn")
-        .forEach(btn =>
-          btn.classList.remove("active")
+      const button =
+        document.createElement(
+          "button"
         );
 
-      button.classList.add("active");
 
-      selectedFormat = format.id;
+      button.type =
+        "button";
 
-      downloadVideo();
-    };
+      button.className =
+        "quality-btn";
 
-    qualityRow.appendChild(button);
 
-    if (index === 0) {
+      button.textContent =
+        format.quality ||
+        (
+          format.height
+            ? format.height + "p"
+            : "Video"
+        );
 
-      button.classList.add("active");
 
-      selectedFormat = format.id;
+      button.onclick =
+        function(){
+
+          document
+            .querySelectorAll(
+              ".quality-btn"
+            )
+            .forEach(
+              btn =>
+                btn.classList.remove(
+                  "active"
+                )
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          selectedFormat =
+            format.id;
+
+
+          finalDownloadBtn.disabled =
+            false;
+
+
+          setStatus(
+            "✅ Quality selected. Click Download Video.",
+            "success"
+          );
+
+        };
+
+
+      qualityRow.appendChild(
+        button
+      );
+
+
+      /* First quality selected by default */
+
+      if(index === 0){
+
+        button.classList.add(
+          "active"
+        );
+
+        selectedFormat =
+          format.id;
+
+        finalDownloadBtn.disabled =
+          false;
+
+      }
+
     }
+  );
 
-  });
 }
 
 
-// DOWNLOAD VIDEO
-async function downloadVideo() {
+/* =========================
+   DOWNLOAD VIDEO
+========================= */
 
-  if (!currentUrl || !selectedFormat) {
+async function downloadVideo(){
+
+  if(
+    !currentUrl ||
+    !selectedFormat
+  ){
 
     setStatus(
-      "❌ Please select a video quality.",
+      "❌ Please select a video quality first.",
       "error"
     );
 
     return;
   }
 
+
+  finalDownloadBtn.disabled =
+    true;
+
+  finalDownloadBtn.textContent =
+    "⏳ Preparing Download...";
+
+
   setStatus(
-    "⏳ Preparing your download..."
+    "⏳ Preparing your video..."
   );
 
-  try {
+
+  try{
 
     const params =
       new URLSearchParams();
 
-    params.set("url", currentUrl);
-    params.set("format", selectedFormat);
+
+    params.set(
+      "url",
+      currentUrl
+    );
+
+
+    params.set(
+      "format",
+      selectedFormat
+    );
+
 
     const apiUrl =
       API_BASE +
       "/download?" +
       params.toString();
 
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        "x-api-key": API_KEY
-      }
-    });
+
+    const response =
+      await fetch(
+        apiUrl,
+        {
+          method:"GET",
+
+          headers:{
+            "x-api-key":API_KEY
+          }
+        }
+      );
+
 
     const data =
       await response.json();
 
-    if (!response.ok || data.ok !== true) {
+
+    if(
+      !response.ok ||
+      data.ok !== true
+    ){
 
       const errorMessage =
         data?.error?.message ||
         data?.message ||
         "Download failed.";
 
-      throw new Error(errorMessage);
+      throw new Error(
+        errorMessage
+      );
+
     }
 
-    if (!data.url) {
+
+    if(!data.url){
+
       throw new Error(
         "Download URL was not returned."
       );
+
     }
+
 
     setStatus(
       "✅ Download ready!",
       "success"
     );
 
+
     const link =
-      document.createElement("a");
+      document.createElement(
+        "a"
+      );
 
-    link.href = data.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
 
-    if (data.filename) {
-      link.download = data.filename;
+    link.href =
+      data.url;
+
+    link.target =
+      "_blank";
+
+    link.rel =
+      "noopener noreferrer";
+
+
+    if(data.filename){
+
+      link.download =
+        data.filename;
+
     }
 
-    document.body.appendChild(link);
+
+    document.body.appendChild(
+      link
+    );
+
 
     link.click();
 
+
     link.remove();
 
-  } catch (error) {
+
+  }catch(error){
 
     console.error(error);
 
     setStatus(
       "❌ " +
-      (error.message || "Download failed."),
+      (
+        error.message ||
+        "Download failed."
+      ),
       "error"
     );
+
+  }finally{
+
+    finalDownloadBtn.disabled =
+      false;
+
+    finalDownloadBtn.textContent =
+      "⬇️ Download Video";
+
   }
+
 }
 
 
-// FORMAT DURATION
-function formatDuration(seconds) {
+/* =========================
+   DURATION
+========================= */
 
-  if (!seconds) return "";
+function formatDuration(
+  seconds
+){
 
-  seconds = Number(seconds);
+  if(!seconds){
+
+    return "";
+  }
+
+
+  seconds =
+    Number(seconds);
+
 
   const minutes =
-    Math.floor(seconds / 60);
+    Math.floor(
+      seconds / 60
+    );
+
 
   const remainingSeconds =
-    Math.floor(seconds % 60);
+    Math.floor(
+      seconds % 60
+    );
+
 
   return (
     minutes +
     ":" +
-    String(remainingSeconds)
-      .padStart(2, "0")
+    String(
+      remainingSeconds
+    ).padStart(
+      2,
+      "0"
+    )
   );
+
 }
 
 
-// ENTER KEY
+/* =========================
+   ENTER KEY
+========================= */
+
 urlInput.addEventListener(
   "keydown",
-  function(event) {
+  function(event){
 
-    if (event.key === "Enter") {
+    if(
+      event.key === "Enter"
+    ){
+
       getInfo();
+
     }
 
   }
@@ -1090,4 +1267,4 @@ urlInput.addEventListener(
 </script>
 
 </body>
-  </html>
+    </html>
